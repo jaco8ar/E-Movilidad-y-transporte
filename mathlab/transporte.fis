@@ -2,8 +2,8 @@
 Name='transporte'
 Type='mamdani'
 Version=2.0
-NumInputs=1
-NumOutputs=1
+NumInputs=3
+NumOutputs=2
 NumRules=0
 AndMethod='min'
 OrMethod='max'
@@ -12,19 +12,49 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
-Name='input1'
-Range=[0 1]
-NumMFs=3
-MF1='mf1':'trimf',[-0.416666666666667 0 0.416666666666667]
-MF2='mf2':'trimf',[0.0833333333333333 0.5 0.916666666666667]
-MF3='mf3':'trimf',[0.583333333333333 1 1.41666666666667]
+Name='tiempoDeViaje'
+Range=[10 120]
+NumMFs=5
+MF1='muy_corto':'trapmf',[0 0 15 20]
+MF2='corto':'trapmf',[15 20 25 30]
+MF3='moderado':'trapmf',[20 30 43 45]
+MF4='largo':'trapmf',[40 50 70 80]
+MF5='muy_largo':'trapmf',[70 90 120 120]
+
+[Input2]
+Name='comodidad'
+Range=[0 10]
+NumMFs=5
+MF1='muy_incomodo':'trapmf',[0 0 1 2]
+MF2='neutral':'trimf',[3 4.5 6]
+MF3='muy_comodo':'trapmf',[7 8 10 10]
+MF4='incomdo':'trimf',[1 2.5 4]
+MF5='comodo':'trimf',[5 6.5 8]
+
+[Input3]
+Name='seguridad'
+Range=[0 10]
+NumMFs=5
+MF1='muy_inseguro':'trapmf',[0 0 1 2]
+MF2='moderado':'trimf',[3 4.5 6]
+MF3='muy_seguro':'trapmf',[7 8 10 10]
+MF4='seguro':'trimf',[5 6.5 8]
+MF5='inseguro':'trimf',[1 2.5 4]
 
 [Output1]
-Name='output1'
-Range=[0 1]
+Name='emisiones'
+Range=[0 1200]
 NumMFs=3
-MF1='mf1':'trimf',[-0.416666666666667 0 0.416666666666667]
-MF2='mf2':'trimf',[0.0833333333333333 0.5 0.916666666666667]
-MF3='mf3':'trimf',[0.583333333333333 1 1.41666666666667]
+MF1='mf1':'trimf',[-500 0 500]
+MF2='mf2':'trimf',[100 600 1100]
+MF3='mf3':'trimf',[700 1200 1700]
+
+[Output2]
+Name='costo'
+Range=[0 20000]
+NumMFs=3
+MF1='mf1':'trimf',[-8333 0 8333]
+MF2='mf2':'trimf',[1667 10000 18330]
+MF3='mf3':'trimf',[11670 20000 28330]
 
 [Rules]
