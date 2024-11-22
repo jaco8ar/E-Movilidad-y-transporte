@@ -44,17 +44,21 @@ MF5='inseguro':'trimf',[1 2.5 4]
 [Output1]
 Name='emisiones'
 Range=[0 1200]
-NumMFs=3
-MF1='mf1':'trimf',[-500 0 500]
-MF2='mf2':'trimf',[100 600 1100]
-MF3='mf3':'trimf',[700 1200 1700]
+NumMFs=5
+MF1='no_motorizado':'gaussmf',[30 0]
+MF2='electrico':'gaussmf',[20 50]
+MF3='hibrido':'trapmf',[70 100 650 700]
+MF4='diesel':'trapmf',[130 200 900 1000]
+MF5='gasolina':'trapmf',[200 280 1200 1200]
 
 [Output2]
 Name='costo'
 Range=[0 20000]
-NumMFs=3
-MF1='mf1':'trimf',[-8333 0 8333]
-MF2='mf2':'trimf',[1667 10000 18330]
-MF3='mf3':'trimf',[11670 20000 28330]
+NumMFs=5
+MF1='muy_barato':'trapmf',[0 0 2500 4000]
+MF2='justo':'trapmf',[5000 6600 9000 10000]
+MF3='muy_costoso':'trapmf',[13000 15000 20000 20000]
+MF4='barato':'trapmf',[3000 4000 6000 7000]
+MF5='costoso':'trapmf',[9000 10500 13500 15000]
 
 [Rules]
