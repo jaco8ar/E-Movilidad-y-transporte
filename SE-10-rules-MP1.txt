@@ -4,7 +4,6 @@
 %Jacobo Ochoa Ramirez 		 	- jochoara@unal.edu.co
 %Juan Manuel Rodríguez Sánchez  - juarodriguezs@unal.edu.co
 
-
 % Base de conocimientos
 transporte(bicicleta).
 transporte(caminar).
@@ -57,19 +56,9 @@ recomendar(carro_electrico, Consumo, Precio) :-
     Consumo =< 400,
     Precio > 10000.
 
-% Nueva regla: Sin transporte disponible
-recomendar(sin_transporte, _, _) :-
-    \+ (   recomendar(caminar, _, _)
-        ;   recomendar(bicicleta, _, _)
-        ;   recomendar(transporte_publico, _, _)
-        ;   recomendar(carro_electrico, _, _)
-        ;   recomendar(carro_convencional, _, _)
-        ;   recomendar(moto, _, _)
-        ;   recomendar(tren_electrico, _, _)
-       ).
 
-% Interfaz
 %escribir "iniciar." en la consola para iniciar el programa
+% Interfaz
 iniciar :-
     writeln('Bienvenido al sistema experto de transporte.'),
     writeln('Por favor, ingrese los valores solicitados.'),
@@ -100,8 +89,5 @@ validar_precio(Precio) :-
         fail).
 
 recomendar_transporte(Consumo, Precio) :-
-    (   recomendar(Transporte, Consumo, Precio),
-        Transporte \= sin_transporte
-    ->  format('El método de transporte recomendado es: ~w~n', [Transporte])
-    ;   writeln('No hay ningún transporte que cumpla con los criterios.')
-    ).
+    recomendar(Transporte, Consumo, Precio),
+    format('El método de transporte recomendado es: ~w~n', [Transporte]).
