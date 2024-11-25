@@ -1,0 +1,87 @@
+% Base de conocimientos
+transporte(bicicleta).
+transporte(caminar).
+transporte(transporte_publico).
+transporte(carro_electrico).
+transporte(carro_convencional).
+transporte(moto).
+transporte(tren_electrico).
+
+% Reglas
+recomendar(caminar, Consumo, Precio) :-
+    Consumo =< 100,
+    Precio =:= 0.
+
+recomendar(bicicleta, Consumo, Precio) :-
+    Consumo > 100,
+    Consumo =< 200,
+    Precio =< 5000.
+
+recomendar(transporte_publico, Consumo, Precio) :-
+    Consumo > 200,
+    Consumo =< 300,
+    Precio =< 10000.
+
+recomendar(carro_electrico, Consumo, Precio) :-
+    Consumo > 300,
+    Consumo =< 500,
+    Precio =< 10000.
+
+recomendar(carro_convencional, Consumo, Precio) :-
+    Consumo > 500,
+    Consumo =< 800,
+    Precio =< 15000.
+
+recomendar(tren_electrico, Consumo, Precio) :-
+    Consumo > 800,
+    Consumo =< 1200,
+    Precio =< 20000.
+
+recomendar(moto, Consumo, Precio) :-
+    Consumo > 300,
+    Consumo =< 700,
+    Precio =< 10000.
+
+recomendar(transporte_publico, Consumo, Precio) :-
+    Precio > 15000,
+    Consumo =< 500.
+
+recomendar(carro_electrico, Consumo, Precio) :-
+    Consumo =< 400,
+    Precio > 10000.
+
+
+% Interfaz
+iniciar :-
+    writeln('Bienvenido al sistema experto de transporte.'),
+    writeln('Por favor, ingrese los valores solicitados.'),
+    writeln('Nota: El consumo debe estar entre 0 y 1200 gramos/km y el precio entre 0 y 20000 COP.'),
+    preguntar_valores(Consumo, Precio),
+    recomendar_transporte(Consumo, Precio).
+
+preguntar_valores(Consumo, Precio) :-
+    writeln('Ingrese el consumo en gramos por km:'),
+    read(Consumo),
+    validar_consumo(Consumo),
+    writeln('Ingrese el precio en COP:'),
+    read(Precio),
+    validar_precio(Precio).
+
+validar_consumo(Consumo) :-
+    (Consumo >= 0, Consumo =< 1200 ->
+        true
+    ;
+        writeln('El valor ingresado para el consumo no es válido. Debe estar entre 0 y 1200.'),
+        fail).
+
+validar_precio(Precio) :-
+    (Precio >= 0, Precio =< 20000 ->
+        true
+    ;
+        writeln('El valor ingresado para el precio no es válido. Debe estar entre 0 y 20000.'),
+        fail).
+
+recomendar_transporte(Consumo, Precio) :-
+    recomendar(Transporte, Consumo, Precio),
+    format('El método de transporte recomendado es: ~w~n', [Transporte]).
+
