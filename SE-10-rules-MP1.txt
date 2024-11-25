@@ -13,6 +13,16 @@ transporte(carro_convencional).
 transporte(moto).
 transporte(tren_electrico).
 
+%transporte(bicicleta, 100, 200, 0, 5000).
+
+recomendacion(VE, CON, PRE):-
+	transporte(VE, REME, REMA, RPME, RPMA),
+	CON >= REME,
+	CON =< REMA,
+	PRE >= RPME,
+	PRE =< RPMA.
+
+
 % Reglas
 recomendar(caminar, Consumo, Precio) :-
     Consumo =< 100,
