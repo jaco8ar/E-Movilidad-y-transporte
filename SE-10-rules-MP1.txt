@@ -10,6 +10,7 @@
 transporte(caminar, 	  	  0,  100,    0,      0,        none).
 transporte(trotar,  	  	  0,  200,    0,      0,        none).
 transporte(correr, 	    	  0,  350,    0,      0,        none).
+transporte(nadar, 	    	  0,  400,  1000, 10000,        none).
 transporte(bicicleta, 		101,  200,  1000,  5000,        none).
 transporte(bici_electrica, 	201,  450,  3000, 11000,   electrico).
 transporte(moto, 	  		201,  300,  4000, 18000,    gasolina).
@@ -20,11 +21,11 @@ transporte(bus,		  		701,  900,  5000, 20000,    gasolina).
 transporte(bus_doble_piso,	601, 1000,  7000, 22000,    gasolina).
 transporte(carro, 	  		901, 1200,  9000, 35000,    gasolina).
 transporte(carro_antiguo,	701, 1200,  5000, 20000,    gasolina).
-transporte(scooter_electrico, 0,  150,  2000,  8000,   electrico).
-transporte(carro_hibrido,    500, 800, 15000, 30000,     hibrido).
-transporte(moto_hibrida,     400, 800, 9000,  26000,     hibrido).
-transporte(taxi,             300, 600,  7000, 25000,    gasolina).
-transporte(tren,             700,1200,  8000, 30000,   electrico).
+transporte(scooter_electrico, 201,350,  2000,  8000,   electrico).
+transporte(carro_hibrido,    501, 800, 15000, 30000,     hibrido).
+transporte(moto_hibrida,     401, 800, 9000,  26000,     hibrido).
+transporte(taxi,             301,1000,  8500, 40000,    gasolina).
+transporte(tren,             701,1200,  8000, 30000,   electrico).
 
 % Regla de recomendación
 recomendacion(Vehiculo, Consumo, Precio, Motorizacion) :-
@@ -34,6 +35,17 @@ recomendacion(Vehiculo, Consumo, Precio, Motorizacion) :-
     Precio >= Pmin,
     Precio =< Pmax.
 
+recomendacion(scooter_electrico, Consumo, Precio, electrico) :-
+    Consumo >= 0, Consumo =< 150, Precio >= 2000, Precio =< 8000.
+
+recomendacion(carro_hibrido, Consumo, Precio, hibrido) :-
+    Consumo >= 500, Consumo =< 800, Precio >= 15000, Precio =< 30000.
+
+recomendacion(taxi, Consumo, Precio, gasolina) :-
+    Consumo >= 300, Consumo =< 600, Precio >= 7000, Precio =< 25000.
+
+recomendacion(tren, Consumo, Precio, electrico) :-
+    Consumo >= 700, Consumo =< 1200, Precio >= 8000, Precio =< 30000.
 
 %escribir "iniciar." en la consola para iniciar el programa
 % Interfaz
