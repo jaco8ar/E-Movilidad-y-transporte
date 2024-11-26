@@ -35,38 +35,57 @@ recomendacion(Vehiculo, Consumo, Precio, Motorizacion) :-
     Precio >= Pmin,
     Precio =< Pmax.
 
-recomendacion(scooter_electrico, Consumo, Precio, electrico) :-
-    Consumo >= 0, Consumo =< 150, Precio >= 2000, Precio =< 8000.
+seleccion_de_transporte_por_motor(Motor, Vehi) :-
+    transporte(Vehi, _, _, _, _, Motor).
 
-recomendacion(carro_hibrido, Consumo, Precio, hibrido) :-
-    Consumo >= 500, Consumo =< 800, Precio >= 15000, Precio =< 30000.
-
-recomendacion(taxi, Consumo, Precio, gasolina) :-
-    Consumo >= 300, Consumo =< 600, Precio >= 7000, Precio =< 25000.
-
-recomendacion(tren, Consumo, Precio, electrico) :-
-    Consumo >= 700, Consumo =< 1200, Precio >= 8000, Precio =< 30000.
-
-%escribir "iniciar." en la consola para iniciar el programa
-% Interfaz
+% Menú
 iniciar :-
     writeln('Bienvenido al sistema experto de transporte.'),
-    writeln('Por favor, ingrese los valores solicitados.'),
-    writeln('Nota: El consumo debe estar entre 0 y 1200 gramos/km y el precio entre 0 y 40000 COP.'),
-    preguntar_valores(Consumo, Precio, Motorizacion),
-    recomendar_transporte(Consumo, Precio, Motorizacion).
+    writeln('Seleccione una opción:'),
+    writeln('1. Recomendar transporte basado en consumo, precio y motorización.'),
+    writeln('2. Mostrar tipos de transporte disponibles por motorización.'),
+    writeln('3. Salir.'),
+    read(Opcion),
+    menu(Opcion).
 
+menu(1) :-
+    writeln('Seleccionó: Recomendar transporte basado en consumo, precio y motorización.'),
+    preguntar_valores(Consumo, Precio, Motorizacion),
+    recomendar_transporte(Consumo, Precio, Motorizacion),
+    iniciar. % Vuelve al menú.
+
+menu(2) :-
+    writeln('Seleccionó: Mostrar tipos de transporte disponibles por motorización.'),
+    preguntar_motorizacion(Motorizacion),
+    mostrar_transporte_por_motorizacion(Motorizacion),
+    iniciar. % Vuelve al menú.
+
+menu(3) :-
+    writeln('Gracias por usar el sistema experto. Hasta pronto!').
+
+menu(_) :-
+    writeln('Opción no válida, intente nuevamente.'),
+    iniciar. % Vuelve al menú si la opción no es válida.
+
+% Preguntar valores para recomendación
 preguntar_valores(Consumo, Precio, Motorizacion) :-
-    writeln('Ingrese el consumo en gramos por km:'),
+    writeln('Ingrese el consumo en gramos por km: entre 0 y 1200 g/Km'),
     read(Consumo),
     validar_consumo(Consumo),
-    writeln('Ingrese el precio en COP:'),
+    writeln('Ingrese el precio en COP: entre 0 y 40000 COP'),
     read(Precio),
     validar_precio(Precio),
     writeln('Ingrese el tipo de motorización (none, electrico, gasolina, hibrido):'),
     read(Motorizacion),
     validar_motorizacion(Motorizacion).
 
+% Preguntar motorización para listar transportes
+preguntar_motorizacion(Motorizacion) :-
+    writeln('Ingrese el tipo de motorización (none, electrico, gasolina, hibrido):'),
+    read(Motorizacion),
+    validar_motorizacion(Motorizacion).
+
+% Validaciones
 validar_consumo(Consumo) :-
     (Consumo >= 0, Consumo =< 1200 ->
         true
@@ -88,6 +107,17 @@ validar_motorizacion(Motorizacion) :-
         writeln('El tipo de motorización ingresado no es válido. Debe ser: none, electrico, gasolina, o hibrido.'),
         fail).
 
+% Mostrar transporte por motorización
+mostrar_transporte_por_motorizacion(Motorizacion) :-
+    writeln('Los transportes disponibles para la motorización seleccionada son:'),
+    findall(Vehi, seleccion_de_transporte_por_motor(Motorizacion, Vehi), Transportes),
+    (Transportes \= [] ->
+        writeln(Transportes)
+    ;
+        writeln('No se encontraron transportes para esta motorización.')
+    ).
+
+% Recomendación de transporte
 recomendar_transporte(Consumo, Precio, Motorizacion) :-
     (   recomendacion(Transporte, Consumo, Precio, Motorizacion)
     ->  format('El método de transporte recomendado es: ~w~n', [Transporte])
