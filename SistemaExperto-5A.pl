@@ -75,7 +75,7 @@ preguntar_valores(Consumo, Precio, Motorizacion) :-
     writeln('Ingrese el precio en COP: entre 0 y 40000 COP'),
     read(Precio),
     validar_precio(Precio),
-    writeln('Ingrese el tipo de motorización (none, electrico, gasolina, hibrido):'),
+    writeln('Ingrese el tipo de motorización (no_motorizado, electrico, gasolina, hibrido):'),
     read(Motorizacion),
     validar_motorizacion(Motorizacion).
 
