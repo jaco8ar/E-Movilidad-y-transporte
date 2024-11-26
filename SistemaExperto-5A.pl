@@ -7,11 +7,11 @@
 % Base de conocimientos
 
 % transporte(Nombre, Consumo_min, Consumo_max, Precio_min, Precio_max, Motorizacion).
-transporte(caminar, 	  	  0,  100,    0,      0,        none).
-transporte(trotar,  	  	  0,  200,    0,      0,        none).
-transporte(correr, 	    	  0,  350,    0,      0,        none).
-transporte(nadar, 	    	  0,  400,  1000, 10000,        none).
-transporte(bicicleta, 		101,  200,  1000,  5000,        none).
+transporte(caminar, 	  	  0,  100,    0,      0,   no_motorizado).
+transporte(trotar,  	  	  0,  200,    0,      0,   no_motorizado).
+transporte(correr, 	    	  0,  350,    0,      0,   no_motorizado).
+transporte(nadar, 	    	  0,  400,  1000, 10000,   no_motorizado).
+transporte(bicicleta, 		101,  200,  1000,  5000,   no_motorizado).
 transporte(bici_electrica, 	201,  450,  3000, 11000,   electrico).
 transporte(moto, 	  		201,  300,  4000, 18000,    gasolina).
 transporte(moto_grande,		301,  650,  4000, 18000,    gasolina).
@@ -81,7 +81,7 @@ preguntar_valores(Consumo, Precio, Motorizacion) :-
 
 % Preguntar motorización para listar transportes
 preguntar_motorizacion(Motorizacion) :-
-    writeln('Ingrese el tipo de motorización (none, electrico, gasolina, hibrido):'),
+    writeln('Ingrese el tipo de motorización (no_motorizado, electrico, gasolina, hibrido):'),
     read(Motorizacion),
     validar_motorizacion(Motorizacion).
 
@@ -101,7 +101,7 @@ validar_precio(Precio) :-
         fail).
 
 validar_motorizacion(Motorizacion) :-
-    (member(Motorizacion, [none, electrico, gasolina, hibrido]) ->
+    (member(Motorizacion, [no_motorizado, electrico, gasolina, hibrido]) ->
         true
     ;
         writeln('El tipo de motorización ingresado no es válido. Debe ser: none, electrico, gasolina, o hibrido.'),
@@ -120,6 +120,6 @@ mostrar_transporte_por_motorizacion(Motorizacion) :-
 % Recomendación de transporte
 recomendar_transporte(Consumo, Precio, Motorizacion) :-
     (   recomendacion(Transporte, Consumo, Precio, Motorizacion)
-    ->  format('El método de transporte recomendado es: ~w~n', [Transporte])
+    ->  format('El medio de transporte recomendado es: ~w~n', [Transporte])
     ;   writeln('No hay ningún transporte que cumpla con los criterios.')
     ).
